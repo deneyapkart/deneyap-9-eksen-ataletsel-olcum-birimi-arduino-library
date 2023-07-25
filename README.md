@@ -1,9 +1,9 @@
-# Deneyap 9 Dof IMU MMC5603NJ Arduino Library
+# Deneyap 9 Dof IMU Arduino Library
 [FOR TURKISH VERSION](docs/README_tr.md) ![trflag](https://github.com/deneyapkart/deneyapkart-arduino-core/blob/master/docs/tr.png)
 
 ***** Add photo ****
 
-Arduino library for Deneyap 9 Dof IMU Sensor MMC5603NJ
+Arduino library for Deneyap 9 Dof IMU Sensor
 
 ## :mag_right:Specifications 
 - `Product ID` **M47**, **mpv1.0**
@@ -17,7 +17,11 @@ Arduino library for Deneyap 9 Dof IMU Sensor MMC5603NJ
 | 0x60 | default address |
 
 ## :closed_book:Documentation
-Deneyap 9 Dof IMU Sensor MMC5603NJ
+[Deneyap 9 Dof IMU Schematic](https://docs.deneyapkart.org/tr/content/contentDetail/deneyap-modul-deneyap-9-eksen-ataletsel-olcum-biri)
+
+[Deneyap 9 Dof IMU Mechanical Drawing](https://cdn.deneyapkart.org/media/upload/userFormUpload/60avDsxDpumKVijrgm9xKhkraAMbSAT2.pdf)
+
+[Deneyap 9 Dof IMU Sensor Teknik Çizim](https://cdn.deneyapkart.org/media/upload/userFormUpload/G1C1XVOofvKIkfkZAPZ6kVZ4v9q9U9NL.pdf)
 
 [MMC5603NJ-datasheet](https://media.digikey.com/pdf/Data%20Sheets/MEMSIC%20PDFs/MMC5603NJ_RevB_7-12-18.pdf)
 
@@ -26,10 +30,10 @@ Deneyap 9 Dof IMU Sensor MMC5603NJ
 [How to install a Arduino Library](https://docs.arduino.cc/software/ide-v1/tutorials/installing-libraries)
 
 ### :paperclips:Dependencies
-[Deneyap 6 Eksen Alaletsel Olcum Birimi](https://github.com/deneyapkart/deneyap-6-eksen-ataletsel-olcum-birimi-arduino-library)
+[Deneyap 6-Eksen Alaletsel Olcum Birimi](https://github.com/deneyapkart/deneyap-6-eksen-ataletsel-olcum-birimi-arduino-library)
 
-## :pushpin:Deneyap 9 Dof IMU MMC5603NJ
-This Arduino library allows you to use Deneyap 9 Dof IMU MMC5603NJ with I2C peripheral. You can use this library in your projects with any Arduino compatible board with I2C peripheral.
+## :pushpin:Deneyap 9 Dof IMU
+This Arduino library allows you to use Deneyap 9 Dof IMU with I2C peripheral. You can use this library in your projects with any Arduino compatible board with I2C peripheral.
 
 3 axes Accelerometer, 3 axes Gyro: [LSM6DSM Library](https://github.com/deneyapkart/deneyap-6-eksen-ataletsel-olcum-birimi-arduino-library)
 
@@ -41,10 +45,12 @@ This Arduino library allows you to use Deneyap 9 Dof IMU MMC5603NJ with I2C peri
 - `library.properties ` General library properties for the Arduino package manager
 
 ## Version History
+1.0.1 - updated sketches
+
 1.0.0 - initial release
 
 ## :rocket:Hardware Connections
-- Deneyap 9 Dof IMU MMC5603NJ, LSM6DSM and Board can be connected with I2C cable
+- Deneyap 9 Dof IMU and Board can be connected with I2C cable
 - or 3V3, GND, SDA and SCL pins can be connected with jumper cables
 
 |9 Dof IMU| Function | Board pins | 

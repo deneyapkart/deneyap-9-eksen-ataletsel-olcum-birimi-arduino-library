@@ -1,8 +1,8 @@
-# Deneyap 9-Eksen Ataletsel Ölçüm Birimi MMC5603NJ, LSM6DSM Arduino Kütüphanesi
+# Deneyap 9-Eksen Ataletsel Ölçüm Birimi Arduino Kütüphanesi
 
 ***** Fotoğraf eklenecek ****
 
-Deneyap 9-Eksen Ataletsel Ölçüm Birimi MMC5603NJ için Arduino kütüphanesidir.
+Deneyap 9-Eksen Ataletsel Ölçüm Birimi için Arduino kütüphanesidir.
 
 ## :mag_right:Özellikler 
 - `Ürün ID` **M47**, **mpv1.0**
@@ -16,7 +16,11 @@ Deneyap 9-Eksen Ataletsel Ölçüm Birimi MMC5603NJ için Arduino kütüphanesid
 | 0x60 | varsayılan adres |
 
 ## :closed_book:Dokümanlar
-Deneyap 9-Eksen Ataletsel Ölçüm Birimi MMC5603NJ
+[Deneyap 9-Eksen Ataletsel Ölçüm Birimi](https://docs.deneyapkart.org/tr/content/contentDetail/deneyap-modul-deneyap-9-eksen-ataletsel-olcum-biri)
+
+[Deneyap 9-Eksen Ataletsel Ölçüm Birimi Şematik](https://cdn.deneyapkart.org/media/upload/userFormUpload/60avDsxDpumKVijrgm9xKhkraAMbSAT2.pdf)
+
+[Deneyap 9-Eksen Ataletsel Ölçüm Birimi Teknik Çizim](https://cdn.deneyapkart.org/media/upload/userFormUpload/G1C1XVOofvKIkfkZAPZ6kVZ4v9q9U9NL.pdf)
 
 [MMC5603NJ-datasheet](https://media.digikey.com/pdf/Data%20Sheets/MEMSIC%20PDFs/MMC5603NJ_RevB_7-12-18.pdf)
 
@@ -25,7 +29,7 @@ Deneyap 9-Eksen Ataletsel Ölçüm Birimi MMC5603NJ
 [Arduino Kütüphanesi Nasıl İndirilir](https://docs.arduino.cc/software/ide-v1/tutorials/installing-libraries)
 
 ### :paperclips:Bağlı Olduğu Kütüphane
-[Deneyap 6 Eksen Alaletsel Olcum Birimi](https://github.com/deneyapkart/deneyap-6-eksen-ataletsel-olcum-birimi-arduino-library)
+[Deneyap 6-Eksen Alaletsel Olcum Birimi](https://github.com/deneyapkart/deneyap-6-eksen-ataletsel-olcum-birimi-arduino-library)
 
 ## :pushpin:Deneyap 9-Eksen Ataletsel Ölçüm Birimi
 Bu Arduino kütüphanesi Deneyap 9-Eksen Ataletsel Ölçüm Birimi I2C çevre birimi ile kullanılmasını sağlar. Arduino ile uyumlu, I2C çevre birimine sahip herhangi bir geliştirme kartı ile bu kütüphaneyi projelerinizde kullanabilirsiniz. 
@@ -40,6 +44,8 @@ Bu Arduino kütüphanesi Deneyap 9-Eksen Ataletsel Ölçüm Birimi I2C çevre bi
 - `library.properties` Arduino yöneticisi için genel kütüphane özellikleri
 
 ## Sürüm Geçmişi
+1.0.1 - örnekler güncellendi
+
 1.0.0 - ilk sürüm
 
 ## :rocket:Donanım Bağlantıları
