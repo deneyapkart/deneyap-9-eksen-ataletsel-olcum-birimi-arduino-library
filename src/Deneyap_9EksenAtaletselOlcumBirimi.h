@@ -2,8 +2,8 @@
 *****************************************************************************
 @file         Deneyap_9EksenAtaletselOlcumBirimi.h
 @mainpage     Deneyap 9 Dof IMU MMC5603NJ Arduino library header file
-@version      v1.0.0
-@date         June 23, 2022
+@version      v1.1.0
+@date         Dec 03, 2025
 @brief        This file contains all function prototypes and macros
               for Deneyap 9 Dof IMU MMC5603NJ Arduino library
 *****************************************************************************
@@ -29,6 +29,7 @@ public:
 
 private:
     uint8_t _address;
+    void triggerMeasurement();
     uint8_t writeRegister(uint8_t address, uint8_t value);
     uint8_t readRegisters(uint8_t address, uint8_t *data, size_t length);
 };

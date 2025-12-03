@@ -2,9 +2,8 @@
 ********************************************************************************
 @file         Deneyap_9EksenAtaletselOlcumBirimi.cpp
 @mainpage     Deneyap 9 Dof IMU MMC5603NJ Arduino library source file
-@maintainer   RFtek Electronics <techsupport@rftek.com.tr>
-@version      v1.0.0
-@date         June 23, 2022
+@version      v1.1.0
+@date         Dec 03, 2025
 @brief        Includes functions to control Deneyap 9 Dof IMU MMC5603NJ 
               Arduino library
 
@@ -19,35 +18,28 @@ Library includes:
 #include <Wire.h>
 
 /**
-  * @brief  I2C initialization and read check  
-  * @param  adress: Device adress 
-  * @retval None
+  * @brief  I2C initialization
 **/
 bool MAGNETOMETER::begin(uint8_t address, TwoWire &wirePort) {
-    _address = address >> 1;
+    _address = address >> 1; 
+    
     Wire.begin();
     Wire.beginTransmission(_address);
-    if(!Wire.endTransmission())
-      return true;
-    return false; 
+    return (Wire.endTransmission() == 0);
 }
 
 /**
-  * @brief  
-  * @param  
-  * @retval 
+  * @brief  Reset and Set procedure (Degaussing)
 **/
 void MAGNETOMETER::RegRead() {
     writeRegister(Control_Reg_0, 0x20);
-    writeRegister(Control_Reg_0, 0x08); // SET
-    writeRegister(Control_Reg_0, 0x10); // RESET
-    writeRegister(Control_Reg_0, 0x01);
+    delay(1);
+    writeRegister(Control_Reg_0, 0x08);
+    delay(1);
 }
 
 /**
-  * @brief  
-  * @param  
-  * @retval 
+  * @brief  Write specific register
 **/
 uint8_t MAGNETOMETER::writeRegister(uint8_t address, uint8_t value) {
     Wire.beginTransmission(_address);
@@ -58,138 +50,91 @@ uint8_t MAGNETOMETER::writeRegister(uint8_t address, uint8_t value) {
 }
 
 /**
-  * @brief  
-  * @param  
-  * @retval 
+  * @brief  Read multiple registers
 **/
 uint8_t MAGNETOMETER::readRegisters(uint8_t address, uint8_t *data, size_t length) {
     Wire.beginTransmission(_address);
     Wire.write(address);
-
-    if (Wire.endTransmission(false) != 0) {
-        return 0;
-    }
-
-    if (Wire.requestFrom(_address, length) != length) {
-        return 0;
-    }
-
+    if (Wire.endTransmission(false) != 0) return 0;
+    if (Wire.requestFrom(_address, length) != length) return 0;
     for (size_t i = 0; i < length; i++) {
         *data++ = Wire.read();
     }
-
-    return 0;
+    return 1;
 }
 
 /**
-  * @brief  
-  * @param  
-  * @retval 
+  * @brief  Helper function to trigger measurement
+**/
+void MAGNETOMETER::triggerMeasurement() {
+    writeRegister(0x1B, 0x01); 
+    delay(10);
+}
+
+/**
+  * @brief  Read X Axis
 **/
 int MAGNETOMETER::readMagnetometerX() {
-    int x = 0;
-    long I2C_ValueX = 0;
+    triggerMeasurement();
+
     byte data[9];
-    readRegisters(0x00, (uint8_t *)data, sizeof(data));
-    for (int i = 7; i >= 0; i--) {
-        I2C_ValueX += pow(2, 12 + i) * bitRead(data[0], i);
-    }
-    for (int i = 7; i >= 0; i--) {
-        I2C_ValueX += pow(2, 4 + i) * bitRead(data[1], i);
-    }
-    for (int i = 7; i >= 4; i--) {
-        I2C_ValueX += pow(2, i) * bitRead(data[6], i);
-    }
-    x = (I2C_ValueX - 524288) * 0.00625;
-    return x;
+    if(readRegisters(0x00, (uint8_t *)data, 9) == 0) return 0;
+
+    unsigned long rawValue = ((unsigned long)data[0] << 12) | ((unsigned long)data[1] << 4) | ((unsigned long)data[6] >> 4);
+    
+    float result = ((long)rawValue - 524288) * 0.00625;
+    return (int)result;
 }
 
 /**
-  * @brief  
-  * @param  
-  * @retval 
+  * @brief  Read Y Axis
 **/
 int MAGNETOMETER::readMagnetometerY() {
-    int y = 0;
-    long I2C_ValueY = 0;
+    triggerMeasurement();
+
     byte data[9];
-    readRegisters(0x00, (uint8_t *)data, sizeof(data));
-    for (int i = 7; i >= 0; i--) {
-        I2C_ValueY += pow(2, 12 + i) * bitRead(data[2], i);
-    }
-    for (int i = 7; i >= 0; i--) {
-        I2C_ValueY += pow(2, 4 + i) * bitRead(data[3], i);
-    }
-    for (int i = 7; i >= 4; i--) {
-        I2C_ValueY += pow(2, i) * bitRead(data[7], i);
-    }
-    y = (I2C_ValueY - 524288) * 0.00625;
-    return y;
+    if(readRegisters(0x00, (uint8_t *)data, 9) == 0) return 0;
+
+    unsigned long rawValue = ((unsigned long)data[2] << 12) | ((unsigned long)data[3] << 4) | ((unsigned long)data[7] >> 4);
+    
+    float result = ((long)rawValue - 524288) * 0.00625;
+    return (int)result;
 }
 
 /**
-  * @brief  
-  * @param  
-  * @retval 
+  * @brief  Read Z Axis
 **/
 int MAGNETOMETER::readMagnetometerZ() {
-    int z = 0;
-    long I2C_ValueZ = 0;
+    triggerMeasurement();
+
     byte data[9];
-    readRegisters(0x00, (uint8_t *)data, sizeof(data));
-    for (int i = 7; i >= 0; i--) {
-        I2C_ValueZ += pow(2, 12 + i) * bitRead(data[4], i);
-    }
-    for (int i = 7; i >= 0; i--) {
-        I2C_ValueZ += pow(2, 4 + i) * bitRead(data[5], i);
-    }
-    for (int i = 7; i >= 4; i--) {
-        I2C_ValueZ += pow(2, i) * bitRead(data[8], i);
-    }
-    z = (I2C_ValueZ - 524288) * 0.00625;
-    return z;
+    if(readRegisters(0x00, (uint8_t *)data, 9) == 0) return 0;
+
+    unsigned long rawValue = ((unsigned long)data[4] << 12) | ((unsigned long)data[5] << 4) | ((unsigned long)data[8] >> 4);
+    
+    float result = ((long)rawValue - 524288) * 0.00625;
+    return (int)result;
 }
 
 /**
-  * @brief  
-  * @param  
-  * @retval 
+  * @brief  Read All Data and Print
 **/
 int MAGNETOMETER::readData() {
-    int x = 0;
-    int y = 0;
-    int z = 0;
-
-    long I2C_ValueX, I2C_ValueY, I2C_ValueZ;
+    triggerMeasurement();
     byte data[9];
-    readRegisters(0x00, (uint8_t *)data, sizeof(data));
-    I2C_ValueX = 0;
-    I2C_ValueY = 0;
-    I2C_ValueZ = 0;
-    for (int i = 7; i >= 0; i--) {
-        I2C_ValueX += pow(2, 12 + i) * bitRead(data[0], i);
-        I2C_ValueY += pow(2, 12 + i) * bitRead(data[2], i);
-        I2C_ValueZ += pow(2, 12 + i) * bitRead(data[4], i);
-    }
-    for (int i = 7; i >= 0; i--) {
-        I2C_ValueX += pow(2, 4 + i) * bitRead(data[1], i);
-        I2C_ValueY += pow(2, 4 + i) * bitRead(data[3], i);
-        I2C_ValueZ += pow(2, 4 + i) * bitRead(data[5], i);
-    }
-    for (int i = 7; i >= 4; i--) {
-        I2C_ValueX += pow(2, i) * bitRead(data[6], i);
-        I2C_ValueY += pow(2, i) * bitRead(data[7], i);
-        I2C_ValueZ += pow(2, i) * bitRead(data[8], i);
-    }
-    x = (I2C_ValueX - 524288) * 0.00625;
-    y = (I2C_ValueY - 524288) * 0.00625;
-    z = (I2C_ValueZ - 524288) * 0.00625;
-    Serial.print("X ekseni = ");
-    Serial.println(x);
-    Serial.print("Y ekseni = ");
-    Serial.println(y);
-    Serial.print("Z ekseni = ");
-    Serial.println(z);
+    if(readRegisters(0x00, (uint8_t *)data, 9) == 0) return 0;
 
-    return true;
+    unsigned long rawX = ((unsigned long)data[0] << 12) | ((unsigned long)data[1] << 4) | ((unsigned long)data[6] >> 4);
+    unsigned long rawY = ((unsigned long)data[2] << 12) | ((unsigned long)data[3] << 4) | ((unsigned long)data[7] >> 4);
+    unsigned long rawZ = ((unsigned long)data[4] << 12) | ((unsigned long)data[5] << 4) | ((unsigned long)data[8] >> 4);
+
+    float x = ((long)rawX - 524288) * 0.00625;
+    float y = ((long)rawY - 524288) * 0.00625;
+    float z = ((long)rawZ - 524288) * 0.00625;
+
+    Serial.print("X ekseni = "); Serial.println(x);
+    Serial.print("Y ekseni = "); Serial.println(y);
+    Serial.print("Z ekseni = "); Serial.println(z);
+
+    return 1;
 }
